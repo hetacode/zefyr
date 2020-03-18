@@ -202,6 +202,20 @@ class _ZefyrEditorState extends State<ZefyrEditor> {
       keyboardAppearance: keyboardAppearance,
     );
 
+    if (_themeData.decoration != null) {
+      editable = Container(
+        decoration: _themeData.decoration,
+        child: editable,
+      );
+    }
+
+    if (_themeData.padding != null) {
+      editable = Padding(
+        padding: _themeData.padding,
+        child: editable,
+      );
+    }
+
     return ZefyrTheme(
       data: _themeData,
       child: ZefyrScopeAccess(

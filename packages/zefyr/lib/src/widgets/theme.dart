@@ -61,13 +61,18 @@ class ZefyrThemeData {
   /// The colors used to render editor toolbar.
   final ToolbarTheme toolbarTheme;
 
+  final Decoration decoration;
+
+  final EdgeInsetsGeometry padding;
+
   /// Creates a [ZefyrThemeData] given a set of exact values.
-  const ZefyrThemeData({
-    this.defaultLineTheme,
-    this.attributeTheme,
-    this.indentWidth,
-    this.toolbarTheme,
-  });
+  const ZefyrThemeData(
+      {this.defaultLineTheme,
+      this.attributeTheme,
+      this.indentWidth,
+      this.toolbarTheme,
+      this.decoration,
+      this.padding});
 
   /// The default editor theme.
   factory ZefyrThemeData.fallback(BuildContext context) {
@@ -80,27 +85,28 @@ class ZefyrThemeData {
       padding: EdgeInsets.symmetric(vertical: 8.0),
     );
     return ZefyrThemeData(
-      defaultLineTheme: defaultLineTheme,
-      attributeTheme: AttributeTheme.fallback(context, defaultLineTheme),
-      indentWidth: 16.0,
-      toolbarTheme: ToolbarTheme.fallback(context),
-    );
+        defaultLineTheme: defaultLineTheme,
+        attributeTheme: AttributeTheme.fallback(context, defaultLineTheme),
+        indentWidth: 16.0,
+        toolbarTheme: ToolbarTheme.fallback(context));
   }
 
   /// Creates a copy of this theme but with the given fields replaced with
   /// the new values.
-  ZefyrThemeData copyWith({
-    LineTheme defaultLineTheme,
-    AttributeTheme attributeTheme,
-    double indentWidth,
-    ToolbarTheme toolbarTheme,
-  }) {
+  ZefyrThemeData copyWith(
+      {LineTheme defaultLineTheme,
+      AttributeTheme attributeTheme,
+      double indentWidth,
+      ToolbarTheme toolbarTheme,
+      Decoration decoration,
+      EdgeInsetsGeometry padding}) {
     return ZefyrThemeData(
-      defaultLineTheme: defaultLineTheme ?? this.defaultLineTheme,
-      attributeTheme: attributeTheme ?? this.attributeTheme,
-      indentWidth: indentWidth ?? this.indentWidth,
-      toolbarTheme: toolbarTheme ?? this.toolbarTheme,
-    );
+        defaultLineTheme: defaultLineTheme ?? this.defaultLineTheme,
+        attributeTheme: attributeTheme ?? this.attributeTheme,
+        indentWidth: indentWidth ?? this.indentWidth,
+        toolbarTheme: toolbarTheme ?? this.toolbarTheme,
+        decoration: decoration ?? this.decoration,
+        padding: padding ?? this.padding);
   }
 
   /// Creates a new [ZefyrThemeData] where each property from this object has
@@ -108,6 +114,8 @@ class ZefyrThemeData {
   ZefyrThemeData merge(ZefyrThemeData other) {
     if (other == null) return this;
     return copyWith(
+      padding: other.padding ?? padding,
+      decoration: other.decoration ?? decoration,
       defaultLineTheme: defaultLineTheme?.merge(other.defaultLineTheme) ??
           other.defaultLineTheme,
       attributeTheme:
@@ -125,7 +133,9 @@ class ZefyrThemeData {
     return (otherData.defaultLineTheme == defaultLineTheme) &&
         (otherData.attributeTheme == attributeTheme) &&
         (otherData.indentWidth == indentWidth) &&
-        (otherData.toolbarTheme == toolbarTheme);
+        (otherData.toolbarTheme == toolbarTheme) &&
+        (otherData.decoration == decoration) &&
+        (otherData.padding == padding);
   }
 
   @override
@@ -135,6 +145,8 @@ class ZefyrThemeData {
       attributeTheme,
       indentWidth,
       toolbarTheme,
+      decoration,
+      padding
     ]);
   }
 }
